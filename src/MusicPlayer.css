@@ -1,0 +1,238 @@
+* {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  
+  body {
+    font-family: "Arial", sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Чтобы предотвратить прокручивание */
+  }
+  
+  .music-player {
+    background-color: #282828;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 100%; /* Чтобы плеер не выходил за пределы экрана */
+    box-sizing: border-box; /* Учитывает padding в ширине */
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #1db954;
+  }
+  
+  .custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #1db954;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  .controls button {
+    background-color: #1db954;
+    color: #ffffff;
+    border: 2px solid #1db954;
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .controls button:hover {
+    background-color: #ffffff;
+    color: #1db954;
+  }
+  
+  input[type="range"] {
+    width: 100%;
+    margin: 10px 0;
+    appearance: none;
+    height: 5px;
+    background: #1db954;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  
+  .playlist {
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .playlist h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #1db954;
+  }
+  
+  .playlist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .playlist ul li {
+    font-size: 0.9rem;
+    padding: 10px;
+    border-bottom: 1px solid #333333;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .playlist ul li:hover {
+    background-color: #1db954;
+    color: #ffffff;
+  }
+  
+  .playlist ul li.active {
+    background-color: #1db954;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .controls span {
+    font-size: 1rem;
+    color: #aaaaaa;
+  }
+  
+  .volume-control {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .volume-control label {
+    font-size: 1rem;
+    color: #ffffff;
+    margin-right: 10px;
+  }
+  
+  .volume-control input[type="range"] {
+    width: 20%;
+    margin: 10px 0;
+    appearance: none;
+    height: 5px;
+    background: #1db954;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .volume-control input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  
+  .volume-control input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  
+  /* Мобильная версия */
+  @media (max-width: 768px) {
+    .music-player {
+      width: 90%; /* Уменьшаем ширину плеера для мобильных устройств */
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 2rem; /* Уменьшаем размер шрифта заголовка */
+    }
+  
+    .controls button {
+      padding: 8px 16px; /* Уменьшаем размеры кнопок */
+    }
+  
+    .volume-control input[type="range"] {
+      width: 50%; /* Увеличиваем ширину ползунка громкости */
+    }
+  
+    .playlist ul li {
+      font-size: 0.8rem; /* Уменьшаем размер шрифта списка */
+      padding: 8px;
+    }
+  
+    .playlist {
+      max-height: 150px; /* Уменьшаем максимальную высоту плейлиста */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .music-player {
+      width: 95%; /* Еще больше уменьшаем ширину плеера для маленьких экранов */
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 1.5rem; /* Уменьшаем заголовок для самых маленьких экранов */
+    }
+  
+    .controls button {
+      padding: 6px 12px; /* Еще меньше кнопки */
+    }
+  
+    .volume-control input[type="range"] {
+      width: 40%; /* Уменьшаем ползунок громкости */
+    }
+  
+    .playlist ul li {
+      font-size: 0.7rem; /* Еще меньше шрифт для списка */
+      padding: 6px;
+    }
+  
+    .playlist {
+      max-height: 120px; /* Плейлист будет занимать меньше места */
+    }
+  }
+  
