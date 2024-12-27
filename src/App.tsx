@@ -1,15 +1,29 @@
-import React, { useState, useRef, ChangeEvent, useEffect } from 'react';
-import './MusicPlayer.css';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
+import "./MusicPlayer.css";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 
 const App: React.FC = () => {
-  const [audioFiles, setAudioFiles] = useState<{ url: string; name: string }[]>([]);
+  const [audioFiles, setAudioFiles] = useState<{ url: string; name: string }[]>(
+    []
+  );
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1); // Состояние громкости
+  const [volume, setVolume] = useState(1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const savedFiles = localStorage.getItem("audioFiles");
+    if (savedFiles) {
+      const parsedFiles = JSON.parse(savedFiles);
+      setAudioFiles(parsedFiles);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("audioFiles", JSON.stringify(audioFiles));
+  }, [audioFiles]);
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -47,7 +61,8 @@ const App: React.FC = () => {
 
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
     if (!audioRef.current) return;
-    const seekTime = (Number(event.target.value) / 100) * audioRef.current.duration;
+    const seekTime =
+      (Number(event.target.value) / 100) * audioRef.current.duration;
     audioRef.current.currentTime = seekTime;
     setProgress(Number(event.target.value));
   };
@@ -67,31 +82,28 @@ const App: React.FC = () => {
     setProgress(0);
   };
 
-  const playSelectedTrack = async (index: number) => {
+  const playSelectedTrack = (index: number) => {
     setCurrentTrackIndex(index);
     setIsPlaying(true);
     setProgress(0);
 
     if (audioRef.current) {
-      audioRef.current.pause(); // Останавливаем текущий трек
-      audioRef.current.load(); // Загружаем новый трек
+      audioRef.current.pause();
+      audioRef.current.load();
 
-      // Дождитесь загрузки метаданных, прежде чем воспроизводить
       audioRef.current.onloadeddata = () => {
         audioRef.current?.play().catch((error) => {
-          console.error('Ошибка воспроизведения:', error);
+          console.error("Ошибка воспроизведения:", error);
         });
       };
     }
   };
 
-  // Обработчик изменения громкости
   const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number(event.target.value) / 100;
     setVolume(newVolume);
   };
 
-  // Используем useEffect для применения громкости после изменения
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
@@ -115,15 +127,13 @@ const App: React.FC = () => {
         <>
           <audio
             ref={audioRef}
-            src={audioFiles[currentTrackIndex].url}
+            src={audioFiles[currentTrackIndex]?.url}
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleNextTrack}
           ></audio>
           <div className="controls">
             <button onClick={handlePrevTrack}>⬅</button>
-            <button onClick={togglePlayPause}>
-              {isPlaying ? '⏹' : '▶'}
-            </button>
+            <button onClick={togglePlayPause}>{isPlaying ? "⏹" : "▶"}</button>
             <button onClick={handleNextTrack}>➡</button>
           </div>
           <input
@@ -135,10 +145,12 @@ const App: React.FC = () => {
           />
           <span>
             {Math.floor(duration / 60)}:
-            {('0' + Math.floor(duration % 60)).slice(-2)}
+            {("0" + Math.floor(duration % 60)).slice(-2)}
           </span>
           <div className="volume-control">
-            <label><VolumeUpIcon /></label>
+            <label>
+              <VolumeUpIcon />
+            </label>
             <input
               type="range"
               min="0"
@@ -153,7 +165,7 @@ const App: React.FC = () => {
               {audioFiles.map((file, index) => (
                 <li
                   key={index}
-                  className={index === currentTrackIndex ? 'active' : ''}
+                  className={index === currentTrackIndex ? "active" : ""}
                   onClick={() => playSelectedTrack(index)}
                 >
                   {index + 1}. {file.name}
